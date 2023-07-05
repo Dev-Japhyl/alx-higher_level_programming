@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """
-This is the "5-test_indentation" module.
-The 5-text_indentation module supplies one function, text_indentation(text).
+text_indentation - a function that prints a text with 2 new lines after each of
+these characters: ., ? and :
+Returns characters printed
 """
 
 
