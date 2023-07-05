@@ -12,13 +12,13 @@ def text_indentation(text):
     """
     if isinstance(text, (str)) is False or text is None:
         raise TypeError("text must be a string")
-    l = len(text) - 1
+    idx = len(text) - 1
     buffer = []
-    for idx, char in enumerate(text):
+    for i, char in enumerate(text):
         buffer.append(char)
         if char == ':' or char == '.' or char == '?':
             print("".join(buffer).strip())
             print()
             buffer = []
-        elif idx == l:
+        elif i == l:
             print("".join(buffer).strip(), end="")
