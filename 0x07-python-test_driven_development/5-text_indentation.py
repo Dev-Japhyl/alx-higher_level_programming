@@ -12,7 +12,7 @@ def text_indentation(text):
     """
     if isinstance(text, (str)) is False or text is None:
         raise TypeError("text must be a string")
-    idx = len(text) - 1
+    d = len(text) - 1
     buffer = []
     for i, char in enumerate(text):
         buffer.append(char)
