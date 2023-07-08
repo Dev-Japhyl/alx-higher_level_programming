@@ -1,19 +1,27 @@
 #!/usr/bin/python3
-"""
-matrix_divided - a function that divides all elements of a matrix.
-Returns a new matrix
+"""Defines a function that prints a text with 2 new lines after each,
+of these characters: . ? and :
+Attributes:
+    text_indentation: function that prints a text with specific conditions
 """
 
 
 def text_indentation(text):
+    """Prints a text with 2 new lines after .?: characters.
+
+    Args:
+        text (str): string to be examined.
+
+    Raises:
+        TypeError: If text is not of type str.
+    """
+
     if not isinstance(text, str):
         raise TypeError("text must be a string")
-    beg = 0
-    for idx, val in enumerate(text):
-        if val in '?:.':
-            print(text[beg:idx + 1].strip() + '\n')
-            beg = idx + 1
-    if not beg:
-        print(text, end='')
-    elif beg is not len(text):
-        print(text[beg:idx + 1].strip(), end='')
+
+    for delim in ".:?":
+        text = (delim + "\n\n").join(
+            [line.strip(" ") for line in text.split(delim)])
+
+    print(text, end="")
+

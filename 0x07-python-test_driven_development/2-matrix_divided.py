@@ -4,6 +4,7 @@ matrix_divided - a function that divides all elements of a matrix.
 Returns a new matrix
 """
 
+
 def matrix_divided(matrix, div):
     """Return a new matrix with all values divided by `div`.
     Matrix must be a list of lists.

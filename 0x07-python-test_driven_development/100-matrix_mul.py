@@ -1,32 +1,84 @@
 #!/usr/bin/python3
-"""This module contain a function that multiplies two matrix"""
+"""Defines a function that multiplies all elements of a matrix.
+
+Attributes:
+    m_a (matrix)
+    m_b (matrix)
+"""
 
 
 def matrix_mul(m_a, m_b):
-    if not isinstance(m_a, list):
-        raise TypeError('m_a must be a list')
-    if False in [isinstance(listx, list) for listx in m_a]:
-        raise TypeError("m_a must be a list of lists")
-    if not isinstance(m_b, list):
-        raise TypeError('m_b must be a list')
-    if False in [isinstance(listx, list) for listx in m_b]:
-        raise TypeError("m_b must be a list of lists")
-    if not len(m_a) or 0 in [len(listx) for listx in m_a]:
-        raise ValueError("m_a can't be empty")
-    if not len(m_b) or 0 in [len(listx) for listx in m_b]:
-        raise ValueError("m_b can't be empty")
-    if any(False in x for x in [[isinstance(ele, (int, float))
-                                 for ele in listx] for listx in m_a]):
-        raise TypeError('m_a should contain only integers or floats')
-    if any(False in x for x in [[isinstance(ele, (int, float))
-                                 for ele in listx] for listx in m_b]):
-        raise TypeError('m_b should contain only integers or floats')
-    if len(set(len(listx) for listx in m_a)) > 1:
-        raise TypeError('each row of m_a must should be of the same size')
-    if len(set(len(listx) for listx in m_b)) > 1:
-        raise TypeError('each row of m_b must should be of the same size')
-    if len(m_a[0]) != len(m_b):
-        raise ValueError("m_a and m_b can't be multiplied")
-    return([[sum(a*b for a, b in
-                 zip(colA, colB)) for colB in zip(*m_b)] for colA in m_a])
+    """Multiplies two matrices.
 
+    Args:
+        m_a (matrix): first matrix.
+        m_b (matrix): second matrix.
+
+    Raises:
+        TypeError: If m_a or m_b is not a list.
+        TypeError: If m_a or m_b is not a list of lists.
+        TypeError: If one element of those list of lists is not an integer
+        or a float.
+        ValueError: If m_a or m_b is empty.
+        TypeError: If m_a or m_b is not a rectangle (all ‘rows’ should be,
+        of the same size).
+        ValueError: If m_a and m_b can’t be multiplied.
+
+    Returns:
+        matrrix: Product of the two matrices.
+    """
+    lists_err = "{} must be a list of lists"
+    empty_err = "{} can't be empty"
+    type_err = "{} should contain only integers or floats"
+    size_err = "each row of {} must be of the same size"
+    value_err = "{} and {} can't be multiplied"
+
+    if not isinstance(m_a, list) or not isinstance(m_b, list):
+        string = "m_a" if not isinstance(m_a, list) else "m_b"
+        raise TypeError("{} must be a list".format(string))
+
+    for element in m_a:
+        if not isinstance(element, list):
+            raise TypeError(lists_err.format('m_a'))
+
+    for element in m_b:
+        if not isinstance(element, list):
+            raise TypeError(lists_err.format('m_b'))
+
+    if len(m_a) == 0 or (len(m_a) == 1 and len(m_a[0]) == 0):
+        raise ValueError(empty_err.format('m_a'))
+
+    if len(m_b) == 0 or (len(m_b) == 1 and len(m_b[0]) == 0):
+        raise ValueError(empty_err.format('m_b'))
+
+    for element in m_a:
+        for item in element:
+            if not type(item) in (int, float):
+                raise TypeError(type_err.format('m_a'))
+
+    for element in m_b:
+        for item in element:
+            if not type(item) in (int, float):
+                raise TypeError(type_err.format('m_b'))
+
+    len_m_a = len(m_a[0])
+    len_m_b = len(m_b[0])
+
+    for element in m_a:
+        if len_m_a != len(element):
+            raise TypeError(size_err.format('m_a'))
+
+    for element in m_b:
+        if len_m_b != len(element):
+            raise TypeError(size_err.format('m_b'))
+
+    if len_m_a != len(m_b):
+        raise ValueError(value_err.format('m_a', 'm_b'))
+
+    new_matrix = [[0 for a in m_b[0]] for x in m_a]
+    for i in range(len(m_a)):
+        for n in range(len(m_b[0])):
+            for k in range(len(m_b)):
+                new_matrix[i][n] += m_a[i][k] * m_b[k][n]
+
+    return new_matrix
