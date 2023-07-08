@@ -1,4 +1,10 @@
 #!/usr/bin/python3
+"""
+matrix_divided - a function that divides all elements of a matrix.
+Returns a new matrix
+"""
+
+
 def text_indentation(text):
     if not isinstance(text, str):
         raise TypeError("text must be a string")
