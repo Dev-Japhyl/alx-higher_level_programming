@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Adds new attribute if possible
+adds new attribute if possible
 """
 
 
