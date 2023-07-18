@@ -1,61 +1,74 @@
 #!/usr/bin/python3
-"""
-10. And now, the Square!
-"""
+"""Module that defines a square object"""
 from models.rectangle import Rectangle
 
 
 class Square(Rectangle):
-    """Write the class Square that inherits from Rectangle
-    """
+    """Defines a square class"""
+
     def __init__(self, size, x=0, y=0, id=None):
+        """Method that initialized the square
+        Args:
+           size: side's size of the square
+           x: Position on x axis.
+           y: Position on y axis.
+        Return:
+           Always nothing.
+        """
         super().__init__(size, size, x, y, id)
 
     def __str__(self):
-        """The overloading __str__ method should return [Square] (<id>) <x>/<y>
-           - <size> - in our case, width or height
-        """
-        return "[Square] ({:d}) {:d}/{:d} - {:d}".format(
-            self.id, self.x, self.y, self.width)
+        """Method that returns a string"""
+        return ("[Square] ({}) {}/{} - {}".format(self.id, self.x, self.y,
+                                                  self.width))
 
     @property
     def size(self):
-        """Size getter
+        """Getter the size of the square
         """
         return self.width
 
     @size.setter
-    def size(self, size):
-        """Size setter
+    def size(self, value):
+        """Setter the size of the square
+        Args:
+           value: Size to assign
+        Return:
+           Always Nothing
         """
-        self.width = size
-        self.height = size
+        self.width = value
+        self.heigth = value
 
     def update(self, *args, **kwargs):
-        """adding the public method def update(self, *args, **kwargs) that
-        assigns attributes: id, size, x, y.
+        """Method that update arguments for square object
+        Args:
+           *args: list of arguments.
+           **kwargs: Dictionary of the arguments.
+        Return:
+           Always nothing
         """
-        if args:
-            attrs = ["id", "size", "x", "y"]
-            for i, e in enumerate(args):
-                setattr(self, attrs[i], e)
-            return
-        for key, value in kwargs.items():
-            if hasattr(self, key):
-                setattr(self, key, value)
+        dict_order = ['id', 'size', 'x', 'y']
+        if args is not None and bool(args) is True:
+            i = 0
+            for key in dict_order:
+                try:
+                    setattr(self, key, args[i])
+                except IndexError:
+                    pass
+                i += 1
+        else:
+            for key in dict_order:
+                try:
+                    setattr(self, key, kwargs[key])
+                except KeyError:
+                    pass
 
     def to_dictionary(self):
-        """Adding the public method def to_dictionary(self): that returns the
-        dictionary representation of a Square: id, size, x, y
+        """Method that returns the dictionary
+           representation of a Square.
         """
-        dict = {}
-        for key, value in vars(self).items():
-            if key.startswith("_"):
-                if not key.endswith("width") and not key.endswith("height"):
-                    idx = key.index("__")
-                    dict[key[idx + 2:]] = value
-                else:
-                    dict["size"] = value
-            else:
-                dict[key] = value
-        return dict
+        dict_order = ['id', 'x', 'size', 'y']
+        dict_attrs = {}
+        for key in dict_order:
+            dict_attrs[key] = getattr(self, key)
+        return dict_attrs
